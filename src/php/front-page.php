@@ -21,7 +21,16 @@ get_header();
 				array(
 					'post_type' => 'event',
 					'posts_per_page' => 2,
-					// 'paged' => $paged,
+					'orderby' => 'meta_value_num',
+					'order' => 'ASC',
+					'meta_query' => array(
+						array(
+							'key' => 'event_date',
+							'compare' => '>=',
+							'value' => date('Ymd'),
+							'type' => 'numeric'
+						)
+					),
 				)
 			);
 			?>
@@ -33,7 +42,7 @@ get_header();
 								<?php echo (new DateTime(get_field('event_date')))->format('M'); ?>
 							</span>
 							<span class="event-summary__day">
-							<?php echo (new DateTime(get_field('event_date')))->format('d'); ?>
+								<?php echo (new DateTime(get_field('event_date')))->format('d'); ?>
 							</span>
 						</a>
 						<div class="event-summary__content">
