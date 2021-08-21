@@ -1467,8 +1467,10 @@ body.login {
     }
 }
 
-.main-navigation .current-menu-item a, .main-navigation a:hover {
-    color: #FAF0CA;
+.main-navigation .current-menu-item a, 
+.main-navigation .current-page-ancestor a, 
+.main-navigation a:hover {
+    color: #f7f98d;
 }
 
 .page-banner {
