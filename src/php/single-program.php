@@ -3,15 +3,9 @@ get_header();
 
 while (have_posts()) {
     the_post(); ?>
-    <div class="page-banner">
-        <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/img/ocean.jpg') ?>);"></div>
-        <div class="page-banner__content container container--narrow">
-            <h1 class="page-banner__title"><?php the_title(); ?></h1>
-            <div class="page-banner__intro">
-                <p>変更を忘れるな</p>
-            </div>
-        </div>
-    </div>
+
+    <?php page_banner(); ?>
+
     <div class="container container--narrow page-section">
         <div class="metabox metabox--position-up metabox--with-home-link">
             <p><a class="metabox__blog-home-link" href="<?php echo get_post_type_archive_link('program') ?>">
@@ -52,8 +46,8 @@ while (have_posts()) {
                 <?php while ($query->have_posts()) : $query->the_post(); ?>
                     <li class="professor-card__list-item">
                         <a class="professor-card" href="<?php the_permalink(); ?>">
-                        <img src="<?php the_post_thumbnail_url('professor-landscape'); ?>" alt="" class="professor-card__image">
-                        <span class="professor-card__name"><?php the_title(); ?></span>
+                            <img src="<?php the_post_thumbnail_url('professor-landscape'); ?>" alt="" class="professor-card__image">
+                            <span class="professor-card__name"><?php the_title(); ?></span>
                         </a>
                     </li>
                 <?php endwhile;  ?>
@@ -91,32 +85,10 @@ while (have_posts()) {
             <hr class="section-break">
             <h2 class="headline headline--medium"><?php the_title(); ?> の予定イベント</h2>
             <?php while ($query->have_posts()) : $query->the_post(); ?>
-                <div class="event-summary">
-                    <a class="event-summary__date t-center" href="#">
-                        <span class="event-summary__month">
-                            <?php echo (new DateTime(get_field('event_date')))->format('M'); ?>
-                        </span>
-                        <span class="event-summary__day">
-                            <?php echo (new DateTime(get_field('event_date')))->format('d'); ?>
-                        </span>
-                    </a>
-                    <div class="event-summary__content">
-                        <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-                        <p><?php
-                            if (has_excerpt()) {
-                                echo get_the_excerpt();
-                            } else {
-                                echo wp_trim_words(get_the_content(), 18);
-                            } ?><a href="<?php the_permalink(); ?>" class="nu gray">Read more</a>
-                        </p>
-                    </div>
-                </div>
+                <?php get_template_part('template-parts/content', 'event'); ?>
         <?php endwhile;
         endif; ?>
         <?php wp_reset_postdata(); ?>
-
-
-
     </div>
 <?php }
 
