@@ -29,6 +29,42 @@ while (have_posts()) {
         // https://www.advancedcustomfields.com/resources/querying-relationship-fields/
         $query = new WP_Query(
             array(
+                'post_type' => 'professor',
+                'posts_per_page' => -1,
+                // 'meta_key' => 'event_date',
+                'orderby' => 'title',
+                'order' => 'ASC',
+                'meta_query' => array(
+                    array(
+                        'key' => 'related_programs',
+                        'compare' => 'LIKE',
+                        'value' => '"' . get_the_ID() . '"', // serialized array で完全一致で検索する
+                    )
+                ),
+            )
+        );
+        ?>
+
+        <?php if ($query->have_posts()) : ?>
+            <hr class="section-break">
+            <h2 class="headline headline--medium"><?php the_title(); ?>の教授</h2>
+            <ul class="">
+                <?php while ($query->have_posts()) : $query->the_post(); ?>
+                    <li class="professor-card__list-item">
+                        <a class="professor-card" href="<?php the_permalink(); ?>">
+                        <img src="<?php the_post_thumbnail_url('professor-landscape'); ?>" alt="" class="professor-card__image">
+                        <span class="professor-card__name"><?php the_title(); ?></span>
+                        </a>
+                    </li>
+                <?php endwhile;  ?>
+            </ul>
+        <?php endif;  ?>
+        <?php wp_reset_postdata(); ?>
+        <!-- professor end -->
+
+        <?php
+        $query = new WP_Query(
+            array(
                 'post_type' => 'event',
                 'posts_per_page' => 2,
                 'meta_key' => 'event_date',
@@ -53,7 +89,7 @@ while (have_posts()) {
 
         <?php if ($query->have_posts()) : ?>
             <hr class="section-break">
-            <h2 class="headline headline--medium">Upcoming <?php the_title(); ?> Events</h2>
+            <h2 class="headline headline--medium"><?php the_title(); ?> の予定イベント</h2>
             <?php while ($query->have_posts()) : $query->the_post(); ?>
                 <div class="event-summary">
                     <a class="event-summary__date t-center" href="#">

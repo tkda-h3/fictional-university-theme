@@ -25,6 +25,12 @@ function university_features()
 	register_nav_menu('footerLocationOne', 'Footer Location One');
 	register_nav_menu('footerLocationTwo', 'Footer Location Two');
 	add_theme_support('title-tag');
+	add_theme_support('post-thumbnails');
+
+	// wp-cliで以下のコマンドで再生成可能
+	// $ wp media regenerate
+	add_image_size('professor-landscape', 400, 260, true);
+	add_image_size('professor-portrait', 480, 650, true);
 }
 
 add_action('after_setup_theme', 'university_features');
@@ -66,6 +72,22 @@ function my_post_types()
 		'menu_icon' => 'dashicons-awards',
 		'public'        => true,
 		'has_archive'   => true,
+		'menu_position' => 5,
+		'show_in_rest'  => true,
+	));
+
+	// professor post type
+	register_post_type('professor', array(
+		'labels' => array(
+			'name'          => '教授',
+			'add_new_item' => 'Add New professor',
+			'edit_item' => 'Edit professor',
+			'all_items' => 'All Professors',
+			'singular_name' => 'professor',
+		),
+		'supports' => array('title', 'editor', 'excerpt', 'custom-fields', 'thumbnail'),
+		'menu_icon' => 'dashicons-welcome-learn-more',
+		'public'        => true,
 		'menu_position' => 5,
 		'show_in_rest'  => true,
 	));
