@@ -3,15 +3,9 @@ get_header();
 
 while (have_posts()) {
     the_post(); ?>
-    <div class="page-banner">
-        <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/img/ocean.jpg') ?>);"></div>
-        <div class="page-banner__content container container--narrow">
-            <h1 class="page-banner__title"><?php the_title(); ?></h1>
-            <div class="page-banner__intro">
-                <p>変更を忘れるな</p>
-            </div>
-        </div>
-    </div>
+
+<?php page_banner(); ?>
+
     <div class="container container--narrow page-section">
         <div class="metabox metabox--position-up metabox--with-home-link">
             <p><a class="metabox__blog-home-link" href="<?php echo get_post_type_archive_link('program') ?>">
@@ -52,8 +46,8 @@ while (have_posts()) {
                 <?php while ($query->have_posts()) : $query->the_post(); ?>
                     <li class="professor-card__list-item">
                         <a class="professor-card" href="<?php the_permalink(); ?>">
-                        <img src="<?php the_post_thumbnail_url('professor-landscape'); ?>" alt="" class="professor-card__image">
-                        <span class="professor-card__name"><?php the_title(); ?></span>
+                            <img src="<?php the_post_thumbnail_url('professor-landscape'); ?>" alt="" class="professor-card__image">
+                            <span class="professor-card__name"><?php the_title(); ?></span>
                         </a>
                     </li>
                 <?php endwhile;  ?>
