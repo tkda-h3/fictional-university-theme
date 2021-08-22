@@ -4,7 +4,7 @@ get_header();
 while (have_posts()) {
     the_post(); ?>
 
-<?php page_banner(); ?>
+    <?php page_banner(); ?>
 
     <div class="container container--narrow page-section">
         <div class="metabox metabox--position-up metabox--with-home-link">
@@ -85,32 +85,10 @@ while (have_posts()) {
             <hr class="section-break">
             <h2 class="headline headline--medium"><?php the_title(); ?> の予定イベント</h2>
             <?php while ($query->have_posts()) : $query->the_post(); ?>
-                <div class="event-summary">
-                    <a class="event-summary__date t-center" href="#">
-                        <span class="event-summary__month">
-                            <?php echo (new DateTime(get_field('event_date')))->format('M'); ?>
-                        </span>
-                        <span class="event-summary__day">
-                            <?php echo (new DateTime(get_field('event_date')))->format('d'); ?>
-                        </span>
-                    </a>
-                    <div class="event-summary__content">
-                        <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-                        <p><?php
-                            if (has_excerpt()) {
-                                echo get_the_excerpt();
-                            } else {
-                                echo wp_trim_words(get_the_content(), 18);
-                            } ?><a href="<?php the_permalink(); ?>" class="nu gray">Read more</a>
-                        </p>
-                    </div>
-                </div>
+                <?php get_template_part('template-parts/content', 'event'); ?>
         <?php endwhile;
         endif; ?>
         <?php wp_reset_postdata(); ?>
-
-
-
     </div>
 <?php }
 
