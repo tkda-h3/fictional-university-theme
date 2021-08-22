@@ -52,7 +52,7 @@ gulp.task('watch:wp', function () {
 
     gulp.watch(
         [config.src.css + '/style.css'],
-        gulp.series(['css:wp:declare']),
+        gulp.series(['css:wp:declare', 'reload']),
     );
 
     gulp.watch(
