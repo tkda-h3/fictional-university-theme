@@ -34,7 +34,7 @@ add_action('after_setup_theme', 'university_features');
 // custom post type
 function my_post_types()
 {
-
+	// event post type
 	register_post_type('event', array(
 		'labels' => array(
 			'name'          => 'イベント',
@@ -51,6 +51,24 @@ function my_post_types()
 		'menu_position' => 5,
 		'show_in_rest'  => true,
 	));
+	
+	// program post type
+	register_post_type('program', array(
+		'labels' => array(
+			'name'          => 'プログラム',
+			'add_new_item' => 'Add New Program',
+			'edit_item' => 'Edit Program',
+			'all_items' => 'All Programs',
+			'singular_name' => 'Program',
+		),
+		'rewrite' => array('slug' => 'programs'),
+		'supports' => array('title', 'editor', 'excerpt', 'custom-fields'),
+		'menu_icon' => 'dashicons-awards',
+		'public'        => true,
+		'has_archive'   => true,
+		'menu_position' => 5,
+		'show_in_rest'  => true,
+	));
 }
 
 add_action('init', 'my_post_types');
@@ -59,6 +77,12 @@ add_action('init', 'my_post_types');
 // メインクエリの書き換え
 function my_pre_get_posts($query)
 {
+	if (!is_admin() and is_post_type_archive('program') and $query->is_main_query()) {
+		$query->set('orderby', 'title');
+		$query->set('order', 'ASC');
+		$query->set('posts_per_page', -1); // all
+	}
+
 	if (!is_admin() and is_post_type_archive('event') and $query->is_main_query()) {
 		$query->set('meta_key', 'event_date');
 		$query->set('orderby', 'meta_value_num');
