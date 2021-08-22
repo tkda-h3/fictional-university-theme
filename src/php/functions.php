@@ -55,6 +55,7 @@ function my_post_types()
 
 add_action('init', 'my_post_types');
 
+
 // メインクエリの書き換え
 function my_pre_get_posts($query)
 {
