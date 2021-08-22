@@ -4,7 +4,6 @@ get_header();
 <?php page_banner(array(
     'title' => get_the_archive_title(),
     'subtitle' => get_the_archive_description(),
-    'background-image' => '',
 )) ?>
 
     <div class="container container--narrow page-section">

@@ -4,7 +4,6 @@ get_header();
 <?php page_banner(array(
     'title' => 'All Programs',
     'subtitle' => 'here is something for everyone. Have a look around.',
-    // 'background-image' => '',
 )) ?>
 
 <div class="container container--narrow page-section">
