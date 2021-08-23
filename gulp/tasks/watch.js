@@ -55,9 +55,14 @@ gulp.task('watch:wp', function () {
         gulp.series(['css:wp:declare', 'reload']),
     );
 
+    // gulp.watch(
+    //     [config.src.js + '/**/*.js'],
+    //     gulp.series(['js:wp', 'reload']),
+    // );
+
     gulp.watch(
         [config.src.js + '/**/*.js'],
-        gulp.series(['js:wp', 'reload']),
+        gulp.series(['webpack', 'reload']),
     );
 
     gulp.watch(
