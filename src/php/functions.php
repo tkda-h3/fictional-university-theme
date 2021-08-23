@@ -9,7 +9,7 @@ function university_files()
 
 	wp_enqueue_script(
 		'main-university-js',
-		get_theme_file_uri('/js/scripts-bundled.js'),
+		get_theme_file_uri('/js/scripts.js'),
 		NULL,
 		'1.0',
 		true
