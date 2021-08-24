@@ -78,7 +78,7 @@ class Search {
         this.resultDiv.html("<p>Unexpected error; please try again.</p>")
       }
     )
-    
+
     this.isSpinnerVisible = false;
   }
 
