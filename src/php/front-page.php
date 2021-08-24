@@ -37,7 +37,7 @@ get_header();
 			?>
 
 			<?php if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post(); ?>
-				<?php get_template_part('template-parts/content', 'event'); ?>
+					<?php get_template_part('template-parts/content', 'event'); ?>
 			<?php endwhile;
 			endif; ?>
 			<?php wp_reset_postdata(); ?>

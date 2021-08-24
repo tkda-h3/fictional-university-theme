@@ -4,9 +4,9 @@ get_header();
 while (have_posts()) {
     the_post(); ?>
 
-<?php page_banner(array(
-    'title' => get_the_title(),
-)) ?>
+    <?php page_banner(array(
+        'title' => get_the_title(),
+    )) ?>
 
     <div class="container container--narrow page-section">
         <div class="metabox metabox--position-up metabox--with-home-link">
