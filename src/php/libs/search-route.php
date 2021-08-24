@@ -7,8 +7,9 @@ function my_register_search(){
   ));
 }
 
-function universitySearchResults() {
+function universitySearchResults($data) {
   $professors = new WP_Query(array(
+    's' => sanitize_text_field($data['term']),
     'post_type' => 'professor'
   ));
 
