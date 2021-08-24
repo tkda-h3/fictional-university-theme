@@ -112,6 +112,10 @@ add_action('init', 'my_post_types');
 // メインクエリの書き換え
 function my_pre_get_posts($query)
 {
+	if (!is_admin() and is_post_type_archive('campus') and $query->is_main_query()) {
+		$query->set('posts_per_page', -1);
+	}
+
 	if (!is_admin() and is_post_type_archive('program') and $query->is_main_query()) {
 		$query->set('orderby', 'title');
 		$query->set('order', 'ASC');
