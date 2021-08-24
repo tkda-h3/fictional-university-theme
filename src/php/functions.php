@@ -1,5 +1,4 @@
 <?php
-
 // css, js読み込み
 function university_files()
 {
@@ -7,13 +6,8 @@ function university_files()
 	wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 	wp_enqueue_style('university_main_styles', get_template_directory_uri() . '/style.css', NULL, microtime());
 
-	wp_enqueue_script(
-		'main-university-js',
-		get_theme_file_uri('/js/scripts.js'),
-		NULL,
-		'1.0',
-		true
-	);
+	wp_enqueue_script('google-map', "//maps.googleapis.com/maps/api/js?key=" . GOOGLE_MAP_API_KEY, NULL, '1.0', true); // wp-config.php に変数を定義
+	wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts.js'), NULL, '1.0', true); // 最後に読み込みたいので最終行に記述
 }
 
 add_action('wp_enqueue_scripts', 'university_files');
@@ -92,6 +86,24 @@ function my_post_types()
 		'menu_position' => 5,
 		'show_in_rest'  => true,
 	));
+
+	// campus post type
+	register_post_type('campus', array(
+		'labels' => array(
+			'name'          => 'キャンパス',
+			'add_new_item' => 'Add New Campus',
+			'edit_item' => 'Edit Campus',
+			'all_items' => 'All Campuses',
+			'singular_name' => 'campus',
+		),
+		'rewrite' => array('slug' => 'campuses'),
+		'supports' => array('title', 'editor', 'excerpt', 'custom-fields'),
+		'menu_icon' => 'dashicons-location-alt',
+		'public'        => true,
+		'has_archive'   => true,
+		'menu_position' => 5,
+		'show_in_rest'  => true,
+	));
 }
 
 add_action('init', 'my_post_types');
@@ -133,7 +145,7 @@ add_action('pre_get_posts', 'my_pre_get_posts');
 * subtitle?: string,
 * background-image?: string, // 背景画像のurl
 */
-function page_banner($args=array())
+function page_banner($args = array())
 {
 	if (!$args['title']) {
 		$args['title'] = get_the_title();
@@ -164,3 +176,13 @@ function page_banner($args=array())
 
 <?php
 }
+
+// acf google map api
+function my_acf_google_map_api($api)
+{
+	$api['key'] = GOOGLE_MAP_API_KEY;
+
+	return $api;
+}
+
+add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');

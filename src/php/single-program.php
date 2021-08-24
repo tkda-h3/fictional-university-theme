@@ -89,6 +89,18 @@ while (have_posts()) {
         <?php endwhile;
         endif; ?>
         <?php wp_reset_postdata(); ?>
+
+
+        <?php $related_programs = get_field('related_campus'); ?>
+        <?php if ($related_programs) : ?>
+            <hr class="section-break">
+            <h2 class="headline headline--medium">開講キャンパス</h2>
+            <ul class="link-list min-list">
+                <?php foreach ($related_programs as $program) : ?>
+                    <li><a href="<?php the_permalink($program) ?>"><?php echo get_the_title($program) ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
     </div>
 <?php }
 
