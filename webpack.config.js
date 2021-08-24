@@ -2,6 +2,7 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
+  // mode: 'development',
   mode: 'production',
   entry: './src/js/scripts.js',
   output: {
@@ -17,7 +18,7 @@ module.exports = {
             comments: false,
           },
           compress: {
-            drop_console: true,
+            drop_console: false,
           },
         },
       }),
