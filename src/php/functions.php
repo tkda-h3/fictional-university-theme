@@ -1,4 +1,7 @@
 <?php
+
+require get_theme_file_path('/libs/search-route.php');
+
 // css, js読み込み
 function university_files()
 {
