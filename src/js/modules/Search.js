@@ -30,7 +30,7 @@ class Search {
     this.searchOverlay.addClass("search-overlay--active");
     $("body").addClass("body-no-scroll");
     this.searchField.val('');
-    setTimeout(()=>this.searchField.focus(), 301); // css transition-time の後
+    setTimeout(() => this.searchField.focus(), 301); // css transition-time の後
     this.isOverlayOpen = true;
   }
 
@@ -60,16 +60,25 @@ class Search {
   }
 
   getResults() {
-    console.log('start, this.resultDiv: ' + this.resultDiv);
-
-    $.getJSON(`${universityData.root_url}/wp-json/wp/v2/posts?search=` + this.searchField.val(), posts => {
-      this.resultDiv.html(`
+    $.when(
+      $.getJSON(universityData.root_url + "/wp-json/wp/v2/posts?search=" + this.searchField.val()),
+      $.getJSON(universityData.root_url + "/wp-json/wp/v2/pages?search=" + this.searchField.val())
+    ).then(
+      (posts, pages) => {
+        var combinedResults = posts[0].concat(pages[0])
+        this.resultDiv.html(`
         <h2 class="search-overlay__section-title">General Information</h2>
-        ${posts.length ? '<ul class="link-list min-list">' : "<p>No general information matches that search.</p>"}
-        ${posts.map(item => `<li><a href="${item.link}">${item.title.rendered}</a></li>`).join("")}
-        ${posts.length ? "</ul>" : ""}
-      `);
-    });
+        ${combinedResults.length ? '<ul class="link-list min-list">' : "<p>No general information matches that search.</p>"}
+          ${combinedResults.map(item => `<li><a href="${item.link}">${item.title.rendered}</a></li>`).join("")}
+        ${combinedResults.length ? "</ul>" : ""}
+      `)
+        this.isSpinnerVisible = false
+      },
+      () => {
+        this.resultDiv.html("<p>Unexpected error; please try again.</p>")
+      }
+    )
+    
     this.isSpinnerVisible = false;
   }
 
