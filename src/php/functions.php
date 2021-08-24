@@ -8,6 +8,10 @@ function university_files()
 
 	wp_enqueue_script('google-map', "//maps.googleapis.com/maps/api/js?key=" . GOOGLE_MAP_API_KEY, NULL, '1.0', true); // wp-config.php に変数を定義
 	wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts.js'), NULL, '1.0', true); // 最後に読み込みたいので最終行に記述
+
+	wp_localize_script('main-university-js', 'universityData', array(
+		'root_url' => get_site_url(),
+	)); // var universityData = {key: value} でhtmlにベタ書きされるので、他のjsファイルから参照できる
 }
 
 add_action('wp_enqueue_scripts', 'university_files');
