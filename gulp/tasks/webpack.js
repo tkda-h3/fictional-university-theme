@@ -9,5 +9,5 @@ const config = require('../config');
 gulp.task("webpack", function (done) {
   webpackStream(webpackConfig, webpack)
     .pipe(gulp.dest(config.wp.dist + '/js'));
-  done();
+  setTimeout(done, 5000);
 });

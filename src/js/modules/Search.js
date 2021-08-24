@@ -3,6 +3,8 @@ import $ from 'jquery';
 class Search {
   // 1. init
   constructor() {
+    this.addSearchHtml();
+
     this.openButton = $(".js-search-trigger");
     this.closeButton = $(".search-overlay__close");
     this.searchOverlay = $(".search-overlay");
@@ -27,6 +29,8 @@ class Search {
   openOverlay() {
     this.searchOverlay.addClass("search-overlay--active");
     $("body").addClass("body-no-scroll");
+    this.searchField.val('');
+    setTimeout(()=>this.searchField.focus(), 301); // css transition-time の後
     this.isOverlayOpen = true;
   }
 
@@ -58,7 +62,7 @@ class Search {
   getResults() {
     console.log('start, this.resultDiv: ' + this.resultDiv);
 
-    $.getJSON( `${universityData.root_url}/wp-json/wp/v2/posts?search=` + this.searchField.val(), posts => {
+    $.getJSON(`${universityData.root_url}/wp-json/wp/v2/posts?search=` + this.searchField.val(), posts => {
       this.resultDiv.html(`
         <h2 class="search-overlay__section-title">General Information</h2>
         ${posts.length ? '<ul class="link-list min-list">' : "<p>No general information matches that search.</p>"}
@@ -79,6 +83,24 @@ class Search {
     if (e.keyCode == 27 && this.isOverlayOpen) {
       this.closeOverlay()
     }
+  }
+
+  addSearchHtml() {
+    $("body").append(`
+    <div class="search-overlay">
+        <div class="search-overlay__top">
+            <div class="container">
+                <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
+                <input type="text" class="search-term" placeholder="検索ワードを入力してください" id="search-term">
+                <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="search-overlay__results"></div>
+        </div>
+    </div>
+    `)
   }
 }
 
