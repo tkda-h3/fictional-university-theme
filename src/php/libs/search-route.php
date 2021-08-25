@@ -49,7 +49,26 @@ function universitySearchResults($data)
         'permalink' => get_the_permalink(),
         'id' => get_the_ID(),
       ));
+
+      // 開講キャンパスを追加
+      $related_campuses = get_field('related_campus');
+      if($related_campuses){
+        foreach($related_campuses as $campus) {
+          array_push($results['campuses'], array(
+            'title' => get_the_title($campus),
+            'permalink' => get_the_permalink($campus),
+          ));
+        }
+      }
     }
+
+    if (get_post_type() == 'professor') {
+      array_push($results['professors'], array(
+        'title' => get_the_title(),
+        'permalink' => get_the_permalink(),
+        'image' => get_the_post_thumbnail_url(0, 'professor-landscape')
+      ));
+    } 
 
     if (get_post_type() == 'event') {
       $description = null;
@@ -77,8 +96,8 @@ function universitySearchResults($data)
   }
 
   if ($results['programs']) {
+    // 担当教授、関連イベントを検索
     $program_meta_query = array('relation' => 'OR');
-
     foreach($results['programs'] as $program) {
       array_push($program_meta_query, array(
           'key' => 'related_programs',
@@ -86,14 +105,13 @@ function universitySearchResults($data)
           'value' => '"' . $program['id'] . '"'
         ));
     }
-
-    $professor_query = new WP_Query(array(
-      'post_type' => 'professor',
+    $program_related_query = new WP_Query(array(
+      'post_type' => array('professor', 'event'),
       'meta_query' => $program_meta_query
     ));
 
-    while($professor_query->have_posts()) {
-      $professor_query->the_post();
+    while($program_related_query->have_posts()) {
+      $program_related_query->the_post();
 
       if (get_post_type() == 'professor') {
         array_push($results['professors'], array(
@@ -101,13 +119,30 @@ function universitySearchResults($data)
           'permalink' => get_the_permalink(),
           'image' => get_the_post_thumbnail_url(0, 'professor-landscape')
         ));
-      }
+      } 
 
+      if (get_post_type() == 'event') {
+        $description = null;
+        if (has_excerpt()) {
+          $description = get_the_excerpt();
+        } else {
+          $description = wp_trim_words(get_the_content(), 18);
+        }
+        array_push($results['events'], array(
+          'title' => get_the_title(),
+          'permalink' => get_the_permalink(),
+          'month' => (new DateTime(get_field('event_date')))->format('M'),
+          'day' => (new DateTime(get_field('event_date')))->format('d'),
+          'description' => $description,
+        ));
+      }
     }
 
+    // $main_query の結果との重複を排除
     $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
+    $results['events'] = array_values(array_unique($results['events'], SORT_REGULAR));
+    $results['campuses'] = array_values(array_unique($results['campuses'], SORT_REGULAR));
   }
-
 
   return $results;
 }
