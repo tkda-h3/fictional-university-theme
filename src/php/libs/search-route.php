@@ -23,25 +23,67 @@ function universitySearchResults($data)
     'campuses' => array(),
   );
 
-  $post_type_to_result_key = array(
-    'post' => 'generalInfo',
-    'page' => 'generalInfo',
-    'professor' => 'professors',
-    'program' => 'programs',
-    'event' => 'events',
-    'campus' => 'campuses',
-  );
-
   while ($main_query->have_posts()) {
     $main_query->the_post();
 
-    array_push(
-      $results[$post_type_to_result_key[get_post_type()]],
-      array( 
+    if (get_post_type() == 'post'){
+      array_push($results['generalInfo'], array(
         'title' => get_the_title(),
         'permalink' => get_the_permalink(),
-      ),
-    );
+        'postType' => get_post_type(),
+        'authorName' => get_the_author(),
+      ));
+    }
+
+    if (get_post_type() == 'page'){
+      array_push($results['generalInfo'], array(
+        'title' => get_the_title(),
+        'permalink' => get_the_permalink(),
+        'postType' => get_post_type(),
+      ));
+    }
+
+    if (get_post_type() == 'professor'){
+      array_push($results['professors'], array(
+        'title' => get_the_title(),
+        'permalink' => get_the_permalink(),
+        'image' => get_the_post_thumbnail_url(0, 'professor-landscape'),
+      ));
+    }
+
+    if (get_post_type() == 'program'){
+      array_push($results['programs'], array(
+        'title' => get_the_title(),
+        'permalink' => get_the_permalink(),
+      ));
+    }
+
+    if (get_post_type() == 'event'){
+      $description = null;
+      if(has_excerpt()){
+        $description = get_the_excerpt();
+      }else{
+        $description = wp_trim_words(get_the_content(), 18);
+      }
+
+      array_push($results['events'], array(
+        'title' => get_the_title(),
+        'permalink' => get_the_permalink(),
+        'month' => (new DateTime(get_field('event_date')))->format('M'),
+        'day' => (new DateTime(get_field('event_date')))->format('d'),
+        'description' => $description,
+      ));
+    }
+
+    if (get_post_type() == 'campus'){
+      array_push($results['campuses'], array(
+        'title' => get_the_title(),
+        'permalink' => get_the_permalink(),
+      ));
+    }
+
+    
+
   }
   return $results;
 }
