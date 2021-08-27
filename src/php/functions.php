@@ -1,4 +1,7 @@
 <?php
+
+require get_theme_file_path('/libs/search-route.php');
+
 // css, js読み込み
 function university_files()
 {
@@ -194,3 +197,16 @@ function my_acf_google_map_api($api)
 }
 
 add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
+
+
+// Customize WP REST API
+function my_rest_api()
+{
+	register_rest_field('post', 'authorName', array(
+		'get_callback' => function () {
+			return get_the_author();
+		},
+	));
+}
+
+add_action('rest_api_init', 'my_rest_api');

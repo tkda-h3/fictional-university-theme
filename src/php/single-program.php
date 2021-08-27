@@ -42,7 +42,7 @@ while (have_posts()) {
         <?php if ($query->have_posts()) : ?>
             <hr class="section-break">
             <h2 class="headline headline--medium"><?php the_title(); ?>の教授</h2>
-            <ul class="">
+            <ul class="professor-cards">
                 <?php while ($query->have_posts()) : $query->the_post(); ?>
                     <li class="professor-card__list-item">
                         <a class="professor-card" href="<?php the_permalink(); ?>">
