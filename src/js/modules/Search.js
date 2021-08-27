@@ -32,6 +32,7 @@ class Search {
     this.searchField.val('');
     setTimeout(() => this.searchField.focus(), 301); // css transition-time の後
     this.isOverlayOpen = true;
+    return false; // a のデフォルトの挙動を不可
   }
 
   closeOverlay() {
