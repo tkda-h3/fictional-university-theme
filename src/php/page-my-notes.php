@@ -17,6 +17,7 @@ while (have_posts()) {
       <input type="text" class="new-note-title" placeholder="タイトルを入力してください">
       <textarea cols="30" rows="10" class="new-note-body" placeholder="コンテンツを入力してください"></textarea>
       <span class="submit-note">ノートを作成</span>
+      <span class="note-limit-message">登録できるノート数の上限に達しています。不要なノートを削除してください。</span>
     </div>
 
     <ul class="min-list link-list" id="my-notes">

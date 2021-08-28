@@ -227,6 +227,12 @@ function my_rest_api()
 			return get_the_author();
 		},
 	));
+
+	register_rest_field('note', 'userNoteCount', array(
+		'get_callback' => function () {
+			return count_user_posts(get_current_user_id(), 'note');
+		},
+	));
 }
 
 add_action('rest_api_init', 'my_rest_api');
@@ -271,8 +277,15 @@ add_filter('login_headertitle', function () {
 });
 
 // note post を強制的に非公開
-add_filter('wp_insert_post_data', function ($data) {
+// insert以外に、updateでも呼ばれるhook
+add_filter('wp_insert_post_data', function ($data, $postarr) {
 	if($data['post_type'] == 'note'){
+		$note_exist = !$postarr['ID'];
+		// updateの場合のみ
+		if(count_user_posts(get_current_blog_id(), 'note') >= 5 and $note_exist){
+			die("You have reached max limit.");
+		}
+
 		$data['post_title'] = sanitize_textarea_field($data['post_title']);
 		$data['post_content'] = sanitize_textarea_field($data['post_content']);
 	}
@@ -281,4 +294,4 @@ add_filter('wp_insert_post_data', function ($data) {
 		$data['post_status'] = 'private';
 	}
 	return $data;
-});
+}, 10, 2);
