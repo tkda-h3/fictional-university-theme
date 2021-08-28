@@ -1,6 +1,7 @@
 <?php
 
 require get_theme_file_path('/libs/search-route.php');
+require get_theme_file_path('/libs/like-route.php');
 
 // css, js読み込み
 function university_files()
@@ -141,7 +142,7 @@ function my_post_types()
 			'all_items' => 'All Likes',
 			'singular_name' => 'like',
 		),
-		'supports' => array('title'),
+		'supports' => array('title', 'author'),
 		'menu_icon' => 'dashicons-heart',
 		'public'        => false,
 		'show_ui' => true,
