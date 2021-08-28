@@ -58,6 +58,8 @@ function my_post_types()
 		'has_archive'   => true,
 		'menu_position' => 5,
 		'show_in_rest'  => true,
+		'capability_type' => 'event', // permissionの名前を定義
+		'map_meta_cap' => true,
 	));
 
 	// program post type
@@ -110,6 +112,8 @@ function my_post_types()
 		'has_archive'   => true,
 		'menu_position' => 5,
 		'show_in_rest'  => true,
+		'capability_type' => 'campus',
+		'map_meta_cap' => true,
 	));
 }
 
