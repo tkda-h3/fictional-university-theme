@@ -2,26 +2,11 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/js/scripts.js',
   output: {
     filename: 'scripts.js',
     path: path.join(__dirname, 'wp/js')
-  },
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        extractComments: false,
-        terserOptions: {
-          format: {
-            comments: false,
-          },
-          compress: {
-            drop_console: false,
-          },
-        },
-      }),
-    ],
   },
   module: {
     rules: [

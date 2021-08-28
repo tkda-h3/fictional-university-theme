@@ -62,7 +62,7 @@ gulp.task('watch:wp', function () {
 
     gulp.watch(
         [config.src.js + '/**/*.js'],
-        gulp.series(['webpack', 'reload']),
+        gulp.series(['webpack:dev', 'reload']),
     );
 
     gulp.watch(

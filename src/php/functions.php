@@ -14,6 +14,7 @@ function university_files()
 
 	wp_localize_script('main-university-js', 'universityData', array(
 		'root_url' => get_site_url(),
+		'nonce' => wp_create_nonce('wp_rest'), // WP REST API用のシークレット文字列
 	)); // var universityData = {key: value} でhtmlにベタ書きされるので、他のjsファイルから参照できる
 }
 
@@ -58,6 +59,8 @@ function my_post_types()
 		'has_archive'   => true,
 		'menu_position' => 5,
 		'show_in_rest'  => true,
+		'capability_type' => 'event', // permissionの名前を定義
+		'map_meta_cap' => true,
 	));
 
 	// program post type
@@ -74,7 +77,6 @@ function my_post_types()
 		'menu_icon' => 'dashicons-awards',
 		'public'        => true,
 		'has_archive'   => true,
-		'menu_position' => 5,
 		'show_in_rest'  => true,
 	));
 
@@ -90,7 +92,6 @@ function my_post_types()
 		'supports' => array('title', 'editor', 'excerpt', 'custom-fields', 'thumbnail'),
 		'menu_icon' => 'dashicons-welcome-learn-more',
 		'public'        => true,
-		'menu_position' => 5,
 		'show_in_rest'  => true,
 	));
 
@@ -108,8 +109,27 @@ function my_post_types()
 		'menu_icon' => 'dashicons-location-alt',
 		'public'        => true,
 		'has_archive'   => true,
-		'menu_position' => 5,
 		'show_in_rest'  => true,
+		'capability_type' => 'campus',
+		'map_meta_cap' => true,
+	));
+
+	// Note post type
+	register_post_type('note', array(
+		'labels' => array(
+			'name'          => 'ノート',
+			'add_new_item' => 'Add New Note',
+			'edit_item' => 'Edit Note',
+			'all_items' => 'All Notes',
+			'singular_name' => 'note',
+		),
+		'supports' => array('title', 'editor'),
+		'menu_icon' => 'dashicons-welcome-write-blog',
+		'public'        => false,
+		'show_ui' => true,
+		'show_in_rest'  => true,
+		'capability_type' => 'note',
+		'map_meta_cap' => true,
 	));
 }
 
@@ -207,6 +227,71 @@ function my_rest_api()
 			return get_the_author();
 		},
 	));
+
+	register_rest_field('note', 'userNoteCount', array(
+		'get_callback' => function () {
+			return count_user_posts(get_current_user_id(), 'note');
+		},
+	));
 }
 
 add_action('rest_api_init', 'my_rest_api');
+
+
+// subscriber ログイン後リダイレクト
+function redirect_subscriber()
+{
+	$current_user = wp_get_current_user();
+	if (count($current_user->roles) == 1 and $current_user->roles[0] == 'subscriber') {
+		wp_redirect(site_url('/'));
+		exit;
+	}
+}
+add_action('admin_init', 'redirect_subscriber');
+
+// subscriber adminバーを見せない
+function subscriber_no_admin_bar()
+{
+	$current_user = wp_get_current_user();
+	if (count($current_user->roles) == 1 and $current_user->roles[0] == 'subscriber') {
+		show_admin_bar(false);
+	}
+}
+add_action('wp_loaded', 'subscriber_no_admin_bar');
+
+// customize login screen
+function our_header_url()
+{
+	return esc_url(site_url('/'));
+}
+add_filter('login_headerurl', 'our_header_url');
+
+add_action('login_enqueue_scripts', function () {
+	wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
+	wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+	wp_enqueue_style('university_main_styles', get_template_directory_uri() . '/style.css', NULL, microtime());
+});
+
+add_filter('login_headertitle', function () {
+	return get_bloginfo('name');
+});
+
+// note post を強制的に非公開
+// insert以外に、updateでも呼ばれるhook
+add_filter('wp_insert_post_data', function ($data, $postarr) {
+	if($data['post_type'] == 'note'){
+		$note_exist = !$postarr['ID'];
+		// updateの場合のみ
+		if(count_user_posts(get_current_blog_id(), 'note') >= 5 and $note_exist){
+			die("You have reached max limit.");
+		}
+
+		$data['post_title'] = sanitize_textarea_field($data['post_title']);
+		$data['post_content'] = sanitize_textarea_field($data['post_content']);
+	}
+
+	if ($data['post_type'] == 'note' and $data['post_status'] != 'trash') {
+		$data['post_status'] = 'private';
+	}
+	return $data;
+}, 10, 2);
