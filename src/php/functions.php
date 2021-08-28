@@ -14,6 +14,7 @@ function university_files()
 
 	wp_localize_script('main-university-js', 'universityData', array(
 		'root_url' => get_site_url(),
+		'nonce' => wp_create_nonce('wp_rest'), // WP REST API用のシークレット文字列
 	)); // var universityData = {key: value} でhtmlにベタ書きされるので、他のjsファイルから参照できる
 }
 
@@ -76,7 +77,6 @@ function my_post_types()
 		'menu_icon' => 'dashicons-awards',
 		'public'        => true,
 		'has_archive'   => true,
-		'menu_position' => 5,
 		'show_in_rest'  => true,
 	));
 
@@ -92,7 +92,6 @@ function my_post_types()
 		'supports' => array('title', 'editor', 'excerpt', 'custom-fields', 'thumbnail'),
 		'menu_icon' => 'dashicons-welcome-learn-more',
 		'public'        => true,
-		'menu_position' => 5,
 		'show_in_rest'  => true,
 	));
 
@@ -110,10 +109,25 @@ function my_post_types()
 		'menu_icon' => 'dashicons-location-alt',
 		'public'        => true,
 		'has_archive'   => true,
-		'menu_position' => 5,
 		'show_in_rest'  => true,
 		'capability_type' => 'campus',
 		'map_meta_cap' => true,
+	));
+
+	// Note post type
+	register_post_type('note', array(
+		'labels' => array(
+			'name'          => 'ノート',
+			'add_new_item' => 'Add New Note',
+			'edit_item' => 'Edit Note',
+			'all_items' => 'All Notes',
+			'singular_name' => 'note',
+		),
+		'supports' => array('title', 'editor'),
+		'menu_icon' => 'dashicons-welcome-write-blog',
+		'public'        => false,
+		'show_ui' => true,
+		'show_in_rest'  => true,
 	));
 }
 
