@@ -12,6 +12,13 @@ while (have_posts()) {
   <?php page_banner(); ?>
 
   <div class="container container--narrow page-section">
+    <div class="create-note">
+      <h2 class="headline headline--medium">新しいノートを作成する</h2>
+      <input type="text" class="new-note-title" placeholder="タイトルを入力してください">
+      <textarea cols="30" rows="10" class="new-note-body" placeholder="コンテンツを入力してください"></textarea>
+      <span class="submit-note">ノートを作成</span>
+    </div>
+
     <ul class="min-list link-list" id="my-notes">
       <?php
       $query = new WP_Query(array(
