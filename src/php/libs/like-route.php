@@ -29,7 +29,7 @@ function create_like($data)
         )
       ),
     ));
-    if ($exist_query->have_posts == 0 and get_post_type($professor_id) == 'professor') {
+    if ($exist_query->found_posts == 0 and get_post_type($professor_id) == 'professor') {
       return wp_insert_post(array(
         'post_type' => 'like',
         'post_status' => 'publish',
@@ -65,7 +65,7 @@ function delete_like($data)
     if($exist_query->have_posts()){
       while($exist_query->have_posts()){
         $exist_query->the_post();
-        wp_delete_post(get_the_ID());
+        wp_delete_post(get_the_ID(), true);
       }
       wp_reset_postdata();
       return 'Your like deleted.';

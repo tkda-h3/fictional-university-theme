@@ -11,17 +11,16 @@ class Like {
 
   ourClickDispatcher(e){
     let currentLikeBox = $(e.target).closest(".like-box");
-    if(currentLikeBox.data('exists') == 'yes') {
+    // currentLikeBox.data('exists') の書き方だとページの読み込み時しか効かない
+    // リアルタイムのデータの更新なら attr を使う。
+    if(currentLikeBox.attr('data-exists') == 'yes') {
       this.deleteLike(currentLikeBox);
-      currentLikeBox.data('exists', 'no');
     } else {
       this.createLike(currentLikeBox);
-      currentLikeBox.data('exists', 'yes');
     }
   }
 
   createLike(likeBox){
-    console.log('create: ' + likeBox.data('professor-id'));
     $.ajax({
       beforeSend: (xhr) => {
         xhr.setRequestHeader('X-WP-Nonce', universityData.nonce); // リクエストヘッダーに once を渡して認可
@@ -33,11 +32,14 @@ class Like {
       },
       success: (response) => {
         console.log(response);
-        console.log('作成成功');
+
+        likeBox.attr('data-exists', 'yes');
+        let $likeCount = likeBox.find('.like-count')
+        let likeCountValue = parseInt($likeCount.text());
+        $likeCount.text(likeCountValue + 1);
       },
       error: (response) => {
         console.log(response);
-        console.log('作成失敗');
       }
     });
   }
@@ -54,11 +56,14 @@ class Like {
       },
       success: (response) => {
         console.log(response);
-        console.log('削除成功');
+
+        likeBox.attr('data-exists', 'no');
+        let $likeCount = likeBox.find('.like-count')
+        let likeCountValue = parseInt($likeCount.text());
+        $likeCount.text(likeCountValue - 1);
       },
       error: (response) => {
         console.log(response);
-        console.log('削除失敗');
       }
     });
     
