@@ -31,10 +31,10 @@ while (have_posts()) {
         $query->the_post();
       ?>
       <li data-id="<?php the_ID(); ?>" data-state='cancel'>
-        <input readonly type="text" value="<?php echo esc_attr(get_the_title()); ?>" class="note-title-field">
+        <input readonly type="text" value="<?php echo str_replace('非公開: ', '', esc_attr(get_the_title())); ?>" class="note-title-field">
         <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i> 編集</span>
         <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i> 削除</span>
-        <textarea readonly name="" id="" cols="30" rows="10" class="note-body-field"><?php echo esc_attr(wp_strip_all_tags(get_the_content())); ?></textarea>
+        <textarea readonly name="" id="" cols="30" rows="10" class="note-body-field"><?php echo esc_textarea(wp_strip_all_tags(get_the_content())); ?></textarea>
 
         <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i> 保存</span>
       </li>

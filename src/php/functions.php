@@ -128,6 +128,8 @@ function my_post_types()
 		'public'        => false,
 		'show_ui' => true,
 		'show_in_rest'  => true,
+		'capability_type' => 'note',
+		'map_meta_cap' => true,
 	));
 }
 
@@ -231,9 +233,10 @@ add_action('rest_api_init', 'my_rest_api');
 
 
 // subscriber ログイン後リダイレクト
-function redirect_subscriber(){
+function redirect_subscriber()
+{
 	$current_user = wp_get_current_user();
-	if(count($current_user->roles) == 1 and $current_user->roles[0] == 'subscriber'){
+	if (count($current_user->roles) == 1 and $current_user->roles[0] == 'subscriber') {
 		wp_redirect(site_url('/'));
 		exit;
 	}
@@ -241,26 +244,41 @@ function redirect_subscriber(){
 add_action('admin_init', 'redirect_subscriber');
 
 // subscriber adminバーを見せない
-function subscriber_no_admin_bar(){
+function subscriber_no_admin_bar()
+{
 	$current_user = wp_get_current_user();
-	if(count($current_user->roles) == 1 and $current_user->roles[0] == 'subscriber'){
+	if (count($current_user->roles) == 1 and $current_user->roles[0] == 'subscriber') {
 		show_admin_bar(false);
 	}
 }
 add_action('wp_loaded', 'subscriber_no_admin_bar');
 
 // customize login screen
-function our_header_url(){
+function our_header_url()
+{
 	return esc_url(site_url('/'));
 }
 add_filter('login_headerurl', 'our_header_url');
 
-add_action('login_enqueue_scripts', function(){
+add_action('login_enqueue_scripts', function () {
 	wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
 	wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 	wp_enqueue_style('university_main_styles', get_template_directory_uri() . '/style.css', NULL, microtime());
 });
 
-add_filter('login_headertitle', function(){
+add_filter('login_headertitle', function () {
 	return get_bloginfo('name');
+});
+
+// note post を強制的に非公開
+add_filter('wp_insert_post_data', function ($data) {
+	if($data['post_type'] == 'note'){
+		$data['post_title'] = sanitize_textarea_field($data['post_title']);
+		$data['post_content'] = sanitize_textarea_field($data['post_content']);
+	}
+
+	if ($data['post_type'] == 'note' and $data['post_status'] != 'trash') {
+		$data['post_status'] = 'private';
+	}
+	return $data;
 });
