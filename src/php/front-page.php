@@ -17,10 +17,12 @@ get_header();
 			<h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
 
 			<?php
+			$posts_per_page = get_option('tkda_front_page_posts_per_page', 3);
+
 			$query = new WP_Query(
 				array(
 					'post_type' => 'event',
-					'posts_per_page' => 2,
+					'posts_per_page' => $posts_per_page,
 					'meta_key' => 'event_date',
 					'orderby' => 'meta_value_num',
 					'order' => 'ASC',
@@ -51,7 +53,7 @@ get_header();
 			<h2 class="headline headline--small-plus t-center">From Our Blogs</h2>
 			<?php
 			$homepagePosts = new WP_Query(array(
-				'posts_per_page' => 2,
+				'posts_per_page' => $posts_per_page,
 			));
 
 			while ($homepagePosts->have_posts()) :

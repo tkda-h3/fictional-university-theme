@@ -8,6 +8,8 @@ require get_theme_file_path('/functions/custom-post.php');
 require get_theme_file_path('/functions/custom-field.php');
 // クエリの定義、書き換え
 require get_theme_file_path('/functions/custom-query.php');
+// テーマの設定ページ
+require get_theme_file_path('/functions/custom-option.php');
 // ログイン関係
 require get_theme_file_path('/functions/admin.php');
 // WP REST API のフィールドの設定
