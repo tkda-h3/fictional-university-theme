@@ -55,9 +55,6 @@ while (have_posts()) {
             </div>
         </div>
 
-        user_id
-        <?php echo get_current_user_id(); ?>
-
         <?php $related_programs = get_field('related_programs'); ?>
         <?php if ($related_programs) : ?>
             <hr class="section-break">
