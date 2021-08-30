@@ -1,0 +1,29 @@
+name: deploy to staging server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-stg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: gulp build
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.17.4'
+      - run: npm install
+      - run: npm run build:wp:prod
+      - name: set ssh key
+        run: echo "$SSH_PRIVATE_KEY" > ${SSH_KEY_PATH} && chmod 600 ${SSH_KEY_PATH}
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KEY_PATH: id_rsa
+      - name: rsync deploy
+        run: rsync -auzrv -e "ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --delete ./wp/* ${REMOTE_DIR} --exclude .htaccess
+        env:
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+          SSH_KEY_PATH: id_rsa
+
