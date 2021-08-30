@@ -2,8 +2,8 @@
 get_header();
 ?>
 <?php page_banner(array(
-    'title' => 'All Events',
-    'subtitle' => 'See what is going on in our world.',
+    'title' => 'イベント一覧',
+    'subtitle' => '開催予定の楽しいイベントを確認しよう',
 )) ?>
 <div class="container container--narrow page-section">
 
@@ -16,7 +16,7 @@ get_header();
     ?>
 
     <hr class="section-break">
-    <p>Looking for a recap of past events? <a href="<?php echo site_url('/past-events') ?>">Check out our paset events archive.</a></p>
+    <p>過去のイベントをお探しですか？<a href="<?php echo site_url('/past-events') ?>">過去のイベントの一覧はこちら</a></p>
 </div>
 <?php
 get_footer();

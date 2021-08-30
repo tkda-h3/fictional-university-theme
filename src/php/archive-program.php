@@ -2,8 +2,8 @@
 get_header();
 ?>
 <?php page_banner(array(
-    'title' => 'All Programs',
-    'subtitle' => 'here is something for everyone. Have a look around.',
+    'title' => '講義一覧',
+    'subtitle' => '最先端の技術を習得しよう',
 )) ?>
 
 <div class="container container--narrow page-section">

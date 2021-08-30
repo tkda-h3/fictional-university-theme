@@ -3,8 +3,8 @@ get_header();
 ?>
 
 <?php page_banner(array(
-	'title' => 'Welcome to our blog!',
-	'subtitle' => 'Keep up with our latest news.',
+	'title' => 'ブログ',
+	'subtitle' => '本校の最新のニュースをお届けします',
 )) ?>
 
 <div class="container container--narrow page-section">
