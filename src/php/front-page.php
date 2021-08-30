@@ -7,7 +7,7 @@ get_header();
 		<h1 class="headline headline--large">教養大学</h1>
 		<h2 class="headline headline--medium">社会に貢献する博識な人材へ</h2>
 		<h3 class="headline headline--small">あなたにあった専攻を探しませんか？</h3>
-		<a href="#" class="btn btn--large btn--blue">専攻を探す</a>
+		<a href="<?php echo site_url('/programs'); ?>" class="btn btn--large btn--blue">専攻を探す</a>
 	</div>
 </div>
 
