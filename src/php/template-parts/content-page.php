@@ -3,6 +3,6 @@
 
   <div class="generic-content">
     <?php the_excerpt(); ?>
-    <p><a href="<?php the_permalink(); ?>">Continue reading &raquo;</a></p>
+    <p><a href="<?php the_permalink(); ?>">続きを読む &raquo;</a></p>
   </div>
 </div>

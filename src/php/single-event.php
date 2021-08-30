@@ -11,7 +11,7 @@ while (have_posts()) {
     <div class="container container--narrow page-section">
         <div class="metabox metabox--position-up metabox--with-home-link">
             <p><a class="metabox__blog-home-link" href="<?php echo get_post_type_archive_link('event') ?>">
-                    <i class="fa fa-home" aria-hidden="true"></i> Event Home
+                    <i class="fa fa-home" aria-hidden="true"></i>イベント一覧
                 </a>
                 <span class="metabox__main"><?php the_title(); ?></span>
             </p>
@@ -24,7 +24,7 @@ while (have_posts()) {
         <?php $related_programs = get_field('related_programs'); ?>
         <?php if ($related_programs) : ?>
             <hr class="section-break">
-            <h2 class="headline headline--medium">Related Program(s)</h2>
+            <h2 class="headline headline--medium">関連する講義</h2>
             <ul class="link-list min-list">
                 <?php foreach ($related_programs as $program) : ?>
                     <li><a href="<?php the_permalink($program) ?>"><?php echo get_the_title($program) ?></a></li>

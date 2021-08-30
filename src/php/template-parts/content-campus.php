@@ -3,6 +3,6 @@
 
   <div class="generic-content">
     <?php the_excerpt(); ?>
-    <p><a href="<?php the_permalink(); ?>">View Campus &raquo;</a></p>
+    <p><a href="<?php the_permalink(); ?>">キャンパスを見る &raquo;</a></p>
   </div>
 </div>
