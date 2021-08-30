@@ -14,6 +14,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14.17.4'
+      - name: init config
+        run: cp gulp/config-example.js gulp/config.js
       - run: npm install
       - run: npm run build:wp:prod
       - name: set ssh key
