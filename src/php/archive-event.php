@@ -2,7 +2,7 @@
 get_header();
 ?>
 <?php page_banner(array(
-    'title' => 'イベント一覧',
+    'title' => get_the_archive_title(),
     'subtitle' => '開催予定の楽しいイベントを確認しよう',
 )) ?>
 <div class="container container--narrow page-section">

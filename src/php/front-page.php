@@ -59,8 +59,12 @@ get_header();
 			while ($homepagePosts->have_posts()) :
 				$homepagePosts->the_post();
 			?>
+				<?php
+				$year   = get_the_date('Y');
+				$month  = get_the_date('m');
+				?>
 				<div class="event-summary">
-					<a class="event-summary__date event-summary__date--beige t-center" href="<?php the_permalink(); ?>">
+					<a class="event-summary__date event-summary__date--beige t-center" href="<?php echo get_month_link($year, $month); ?>">
 						<span class="event-summary__month"><?php the_time('M'); ?></span>
 						<span class="event-summary__day"><?php the_time('d'); ?></span>
 					</a>
