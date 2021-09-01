@@ -107,6 +107,22 @@ function my_post_types()
 		'public'        => false,
 		'show_ui' => true,
 	));
+
+		// program post type
+		register_post_type('slide', array(
+			'labels' => array(
+				'name'          => 'スライドショー',
+				'add_new_item' => 'Add New Slide',
+				'edit_item' => 'Edit Slide',
+				'all_items' => 'All Slides',
+				'singular_name' => 'slide',
+			),
+			'supports' => array('title', 'custom-fields'),
+			'menu_icon' => 'dashicons-format-gallery',
+			'public'        => true,
+			'show_in_rest'  => true,
+		));
+	
 }
 add_action('init', 'my_post_types');
 

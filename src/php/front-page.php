@@ -88,35 +88,7 @@ get_header();
 	</div>
 </div>
 
-<div class="hero-slider">
-	<div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('img/bus.jpg') ?>);">
-		<div class="hero-slider__interior container">
-			<div class="hero-slider__overlay">
-				<h2 class="headline headline--medium t-center">無料の送迎バス</h2>
-				<p class="t-center">本学生・教職員は駅からの送迎バスが無料で利用できます</p>
-				<p class="t-center no-margin"><a href="#" class="btn btn--blue">詳しく見る</a></p>
-			</div>
-		</div>
-	</div>
-	<div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('img/apples.jpg') ?>);">
-		<div class="hero-slider__interior container">
-			<div class="hero-slider__overlay">
-				<h2 class="headline headline--medium t-center">りんご祭り</h2>
-				<p class="t-center">本校伝統のりんご祭りは大盛りあがり</p>
-				<p class="t-center no-margin"><a href="#" class="btn btn--blue">詳しく見る</a></p>
-			</div>
-		</div>
-	</div>
-	<div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('img/bread.jpg') ?>);">
-		<div class="hero-slider__interior container">
-			<div class="hero-slider__overlay">
-				<h2 class="headline headline--medium t-center">無料の昼食</h2>
-				<p class="t-center">キャンパス内の食堂では無料でご飯を食べられます。</p>
-				<p class="t-center no-margin"><a href="#" class="btn btn--blue">詳しく見る</a></p>
-			</div>
-		</div>
-	</div>
-</div>
+<?php get_template_part('template-parts/slideshow'); ?>
 
 <?php
 get_footer();
