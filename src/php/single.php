@@ -10,7 +10,7 @@ while (have_posts()) {
             <p><a class="metabox__blog-home-link" href="<?php echo site_url('/blog'); ?>">
                     <i class="fa fa-home" aria-hidden="true"></i>ブログ一覧
                 </a>
-                <span class="metabox__main"><?php the_time('Y-m-d'); ?> in <?php echo get_the_category_list(', '); ?></span>
+                <span class="metabox__main"><a href="<?php echo get_month_link(get_the_date('Y'), get_the_date('m')); ?>"><?php the_time('Y-m-d'); ?></a> in <?php echo get_the_category_list(', '); ?></span>
             </p>
         </div>
 
