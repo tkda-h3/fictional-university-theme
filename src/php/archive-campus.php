@@ -17,9 +17,12 @@ get_header();
                 </div>
             <?php endif; ?>
 
-        <?php endwhile;
-        echo paginate_links();
+        <?php
+        endwhile;
         ?>
+        <div class="pagination">
+            <?php echo paginate_links(); ?>
+        </div>
     </div>
 
 </div>

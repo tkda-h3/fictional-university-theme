@@ -31,10 +31,12 @@ get_header();
         <?php get_template_part('template-parts/content', 'event'); ?>
     <?php
     endwhile;
-    echo paginate_links(array(
-        'total' => $query->max_num_pages,
-    ));
     ?>
+    <div class="pagination">
+        <?php echo paginate_links(array(
+            'total' => $query->max_num_pages,
+        )); ?>
+    </div>
 </div>
 <?php
 get_footer();
