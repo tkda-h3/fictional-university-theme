@@ -6,9 +6,6 @@ $month = $event_date->format('m');
 <div class="event-summary">
   <a class="event-summary__date t-center" href="<?php echo site_url("/{$year}/{$month}/?post_type=event");  ?>">
     <span class="event-summary__month">
-      <?php echo $event_date->format('y'); ?>年
-    </span>
-    <span class="event-summary__month">
       <?php echo $event_date->format('n'); ?>月
     </span>
     <span class="event-summary__day">

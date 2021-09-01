@@ -89,6 +89,11 @@ function my_eventt_query($query)
 			);
 			$query->set('meta_key', 'event_date');
 			$query->set('orderby', 'meta_value');
+
+			$query->set('event_year', $query->query_vars['year']);
+			$query->set('event_monthnum', $query->query_vars['monthnum']);
+			$query->set('event_day', $query->query_vars['day']);
+
 			$query->set('year', '');
 			$query->set('monthnum', '');
 			$query->set('day', '');
@@ -97,3 +102,55 @@ function my_eventt_query($query)
 	}
 }
 add_action('pre_get_posts', 'my_eventt_query');
+
+
+// eventのアーカイブページのタイトル変更
+function event_archive_title($title)
+{
+	if (!is_post_type_archive('event')) {
+		return $title;
+	}
+
+	if (is_date()) {
+		$title = get_query_var('event_year') . '年';
+		if (is_day()) {
+			$title .= get_query_var('event_monthnum') . '月';
+			$title .= get_query_var('event_day') . '日';
+		} elseif (is_month()) {
+			$title .= get_query_var('event_monthnum') . '月';
+		}
+		$title .= 'のイベント';
+	} else {
+		$title = post_type_archive_title('', false);
+	}
+	return $title;
+}
+add_filter('get_the_archive_title', 'event_archive_title');
+
+
+// postのアーカイブページのタイトル変更
+function post_archive_title($title)
+{
+	if (get_post_type() != 'post') {
+		return $title;
+	}
+
+	if (is_category()) {
+		$title = single_cat_title('', false);
+		$title = "「{$title}」カテゴリ";
+	} elseif (is_tag()) {
+		$title = single_tag_title('', false);
+		$title = "「{$title}」タグ";
+	} elseif (is_date()) {
+		$title = get_query_var('year') . '年';
+		if (is_day()) {
+			$title .= get_query_var('monthnum') . '月';
+			$title .= get_query_var('day') . '日';
+		} elseif (is_month()) {
+			$title .= get_query_var('monthnum') . '月';
+		}
+	}
+	$title .= 'のブログ記事';
+	return $title;
+}
+add_filter('get_the_archive_title', 'post_archive_title');
