@@ -15,8 +15,10 @@ get_header();
 
     <?php
     endwhile;
-    echo paginate_links();
     ?>
+    <div class="pagination">
+      <?php echo paginate_links(); ?>
+    </div>
   <?php else : ?>
     <h2 class="haedline haedline--medium">合致する検索結果は見つかりませんでした。</h2>
     <?php get_search_form(); ?>

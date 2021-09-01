@@ -10,12 +10,13 @@ get_header();
     <ul class="link-list min-list">
         <?php while (have_posts()) : the_post(); ?>
             <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-
-        <?php endwhile;
-        echo paginate_links();
+        <?php
+        endwhile;
         ?>
     </ul>
-
+    <div class="pagination">
+        <?php echo paginate_links(); ?>
+    </div>
 </div>
 <?php
 get_footer();

@@ -12,9 +12,11 @@ get_header();
         <?php get_template_part('template-parts/content', 'event'); ?>
     <?php
     endwhile;
-    echo paginate_links();
     ?>
-
+    <div class="pagination">
+        <?php echo paginate_links(); ?>
+    </div>
+    
     <hr class="section-break">
     <p>過去のイベントをお探しですか？<a href="<?php echo site_url('/past-events') ?>">過去のイベントの一覧はこちら</a></p>
 </div>
