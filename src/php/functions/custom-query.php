@@ -14,8 +14,10 @@ function my_pre_get_posts($query)
 
 	if (!is_admin() and is_post_type_archive('event') and $query->is_main_query()) {
 		$query->set('meta_key', 'event_date');
-		$query->set('orderby', 'meta_value_num');
-		$query->set('order', 'ASC');
+		$query->set('orderby', array(
+			'meta_value_num' => 'ASC',
+			'title' => 'ASC',
+		));
 		$query->set('meta_query', array(
 			array(
 				'key' => 'event_date',

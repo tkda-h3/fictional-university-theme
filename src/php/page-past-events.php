@@ -14,8 +14,10 @@ get_header();
             'post_type' => 'event',
             'paged' => get_query_var('paged', 1),
             'meta_key' => 'event_date',
-            'orderby' => 'meta_value_num',
-            'order' => 'ASC',
+            'orderby' => array(
+                'meta_value_num' => 'ASC',
+                'title' => 'ASC',
+            ),
             'meta_query' => array(
                 array(
                     'key' => 'event_date',

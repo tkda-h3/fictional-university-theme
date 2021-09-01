@@ -25,7 +25,6 @@ while (have_posts()) {
             array(
                 'post_type' => 'professor',
                 'posts_per_page' => -1,
-                // 'meta_key' => 'event_date',
                 'orderby' => 'title',
                 'order' => 'ASC',
                 'meta_query' => array(

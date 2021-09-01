@@ -5,8 +5,8 @@ get_header();
 	<div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/img/library-hero.jpg') ?>);"></div>
 	<div class="page-banner__content container t-center c-white">
 		<h1 class="headline headline--large">教養大学</h1>
-		<h2 class="headline headline--medium">社会に貢献する博識な人材へ</h2>
-		<h3 class="headline headline--small">あなたにあった専攻を探しませんか？</h3>
+		<div class="headline headline--medium">社会に貢献する博識な人材へ</div>
+		<div class="headline headline--small">あなたにあった専攻を探しませんか？</div>
 		<a href="<?php echo site_url('/programs'); ?>" class="btn btn--large btn--blue">専攻を探す</a>
 	</div>
 </div>
@@ -24,8 +24,10 @@ get_header();
 					'post_type' => 'event',
 					'posts_per_page' => $posts_per_page,
 					'meta_key' => 'event_date',
-					'orderby' => 'meta_value_num',
-					'order' => 'ASC',
+					'orderby' => array(
+						'meta_value_num' => 'ASC',
+						'title' => 'ASC',
+					),
 					'meta_query' => array(
 						array(
 							'key' => 'event_date',
